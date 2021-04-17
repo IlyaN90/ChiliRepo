@@ -25,11 +25,13 @@ namespace testApi
         {
             services.AddCors(options =>
             {
-            options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-                 
+                options.AddDefaultPolicy(
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin()
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod();
+                                  });
             });
 
             services.AddControllers();
@@ -55,7 +57,7 @@ namespace testApi
 
             app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            app.UseCors();
 
             app.UseAuthorization();
 
