@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Chilli.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Chilli.Infrastructure.Context;
 
 namespace testApi
 {
@@ -23,13 +25,17 @@ namespace testApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var test = Configuration.GetConnectionString("PostgreSQLContext");
+            services.AddDbContext<PostgreSQL_context>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLContext")));
+
             services.AddCors(options =>
             {
-            options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
-                 
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+
             });
 
             services.AddControllers();
@@ -37,10 +43,7 @@ namespace testApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "testApi", Version = "v1" });
             });
-
-            Chilli.Infrastructure.Startup.ConfigureServices(services);
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
