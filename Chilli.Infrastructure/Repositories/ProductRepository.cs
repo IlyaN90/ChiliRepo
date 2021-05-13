@@ -17,14 +17,14 @@ namespace Chilli.Infrastructure.Repositories
             _db = db;
         }
 
-        public async Task<ProductEntity> AddProduct(ProductEntity newProduct)
+        public ProductEntity AddProduct(ProductEntity newProduct)
         {
-            await _db.Products.AddAsync(newProduct);
-            await _db.SaveChangesAsync();
+             _db.Products.Add(newProduct);
+             _db.SaveChanges();
             return newProduct;
         }
 
-        public async Task<ProductEntity> DeleteProduct(int productId)
+        public ProductEntity DeleteProduct(int productId)
         {
             var toDelete = _db.Products.Where(p=>p.Id == productId).FirstOrDefault();
             _db.Products.Remove(toDelete);
@@ -38,14 +38,14 @@ namespace Chilli.Infrastructure.Repositories
             return _db.Products.Where(p => p.Id == updatedProduct.Id).FirstOrDefault();
         }
 
-        public async Task<ProductEntity> GetProduct(int productId)
+        public ProductEntity GetProduct(int productId)
         {
             return _db.Products.Where(p => p.Id == productId).FirstOrDefault();
         }
 
-        public List<ProductEntity> GetProduct()
+        public List <ProductEntity> GetProduct()
         {
-            return _db.Products;
+            return _db.Products.ToList();
         }
     }
 }

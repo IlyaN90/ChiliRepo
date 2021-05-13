@@ -31,7 +31,7 @@ namespace Chilli.API.Controllers
 
         // POST api/<OrdersController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] OrderEntity newOrder)
+        public IActionResult Post([FromBody] OrderEntity newOrder)
         {
             OrderEntity response =  _repo.AddOrder(newOrder);
             if (!response.Success)
