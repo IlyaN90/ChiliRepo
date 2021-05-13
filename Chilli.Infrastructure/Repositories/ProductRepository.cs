@@ -11,19 +11,20 @@ namespace Chilli.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-       private Fake _db;
-       public ProductRepository()
+       private PostgreSQL_context _db;
+       public ProductRepository(PostgreSQL_context db)
         {
-            _db = new Fake();
+            _db = db;
         }
 
-        public ProductEntity AddProduct(ProductEntity newProduct)
+        public async Task<ProductEntity> AddProduct(ProductEntity newProduct)
         {
-            _db.Products.Add(newProduct);
+            await _db.Products.AddAsync(newProduct);
+            await _db.SaveChangesAsync();
             return newProduct;
         }
 
-        public ProductEntity DeleteProduct(int productId)
+        public async Task<ProductEntity> DeleteProduct(int productId)
         {
             var toDelete = _db.Products.Where(p=>p.Id == productId).FirstOrDefault();
             _db.Products.Remove(toDelete);
