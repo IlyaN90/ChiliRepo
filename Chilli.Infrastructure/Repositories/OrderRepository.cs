@@ -10,11 +10,11 @@ namespace Chilli.Infrastructure.Repositories
 {
     public class OrderRepository
     {
-        private readonly FakeContext _db;
+        private readonly Fake _db;
 
         public OrderRepository()
         {
-            _db = new FakeContext();
+            _db = new Fake();
         }
 
         public OrderEntity AddOrder(OrderEntity newOrder)
