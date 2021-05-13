@@ -21,7 +21,7 @@ namespace testApi
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseKestrel();
-                    //webBuilder.UseUrls("http://localhost:5000", "http://136.244.106.113:5000", "https://136.244.106.113:5001");
+                    webBuilder.UseUrls("http://localhost:5000", "http://136.244.106.113:5000", "https://136.244.106.113:5001");
                 });
     }
 }
