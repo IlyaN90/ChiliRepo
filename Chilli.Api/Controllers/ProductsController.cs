@@ -1,4 +1,5 @@
 ﻿using Chilli.Core.Infrastructure.Entities.Product;
+using Chilli.Core.Infrastructure.Entities.Repositories;
 using Chilli.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -12,8 +13,12 @@ namespace Chilli.API.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductRepository _repo = new ProductRepository();
+        private readonly IProductRepository _repo;
 
+        public ProductsController(IProductRepository repo)
+        {
+            _repo = repo;
+        }
         // GET: api/<ProductsController>
         [HttpGet]
         public IEnumerable<ProductEntity> Get()
