@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chilli.Infrastructure.Context
 {
-    public class PostgreSQL_contextFactory
+    public class PostgreSQL_contextFactory : IDesignTimeDbContextFactory<PostgreSQL_context>
     {
         public PostgreSQL_context CreateDbContext(string[] args)
         {
