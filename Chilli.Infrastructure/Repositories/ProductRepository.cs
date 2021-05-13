@@ -38,7 +38,7 @@ namespace Chilli.Infrastructure.Repositories
             return _db.Products.Where(p => p.Id == updatedProduct.Id).FirstOrDefault();
         }
 
-        public ProductEntity GetProduct(int productId)
+        public async Task<ProductEntity> GetProduct(int productId)
         {
             return _db.Products.Where(p => p.Id == productId).FirstOrDefault();
         }
