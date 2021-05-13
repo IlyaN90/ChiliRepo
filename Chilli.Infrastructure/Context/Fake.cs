@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Chilli.Infrastructure.Context
 {
-    public class FakeContext
+    public class Fake
     {
         public List<ProductEntity> Products{ get; set; }
         public List<OrderEntity> Orders { get; set; }
-        public FakeContext()
+        public Fake()
         {
             Products = new List<ProductEntity>() { };
             Products.Add(new ProductEntity()

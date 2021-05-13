@@ -11,10 +11,10 @@ namespace Chilli.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-       private FakeContext _db;
+       private Fake _db;
        public ProductRepository()
         {
-            _db = new FakeContext();
+            _db = new Fake();
         }
 
         public ProductEntity AddProduct(ProductEntity newProduct)
