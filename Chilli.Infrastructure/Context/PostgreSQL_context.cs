@@ -21,6 +21,6 @@ namespace Chilli.Infrastructure.Context
         public DbSet<OrderEntity> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-    => modelBuilder.UseTablespace("ChilliDb");
+    => modelBuilder.UseTablespace("chillidb");
     }
 }

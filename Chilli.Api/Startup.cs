@@ -25,7 +25,6 @@ namespace testApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var test = Configuration.GetConnectionString("PostgreSQLContext");
             services.AddDbContext<PostgreSQL_context>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLContext")));
 
