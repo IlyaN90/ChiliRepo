@@ -20,11 +20,6 @@ namespace Chilli.Infrastructure.Context
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
 
-        //'OBS! secure following credentials
-        /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-     => optionsBuilder.UseNpgsql("Host=localhoat;Database=ChilliDb;Username=ChilliApi;Password=admin");
-        */
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
     => modelBuilder.UseTablespace("ChilliDb");
     }
