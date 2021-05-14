@@ -1,4 +1,5 @@
-﻿using Chilli.Core.Infrastructure.Entities.Order;
+﻿using Chilli.Core.Infrastructure.Entities.Category;
+using Chilli.Core.Infrastructure.Entities.Order;
 using Chilli.Core.Infrastructure.Entities.Product;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -19,5 +20,6 @@ namespace Chilli.Infrastructure.Context
 
         public DbSet<ProductEntity> Products { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
     }
 }

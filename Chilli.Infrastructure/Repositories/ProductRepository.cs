@@ -1,6 +1,9 @@
-﻿using Chilli.Core.Infrastructure.Entities.Product;
+﻿using AutoMapper;
+using Chilli.Core.Infrastructure.Entities.Product;
 using Chilli.Core.Infrastructure.Entities.Repositories;
+using Chilli.Core.Product.Models;
 using Chilli.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,41 +14,58 @@ namespace Chilli.Infrastructure.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-       private PostgreSQL_context _db;
-       public ProductRepository(PostgreSQL_context db)
+       private readonly PostgreSQL_context _db;
+       private readonly IMapper _mapper;
+       public ProductRepository(PostgreSQL_context db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
 
-        public ProductEntity AddProduct(ProductEntity newProduct)
+        public async Task<int> AddProductAsync(AddProductRequest request)
         {
-             _db.Products.Add(newProduct);
-             _db.SaveChanges();
-            return newProduct;
+            ProductEntity product = new ProductEntity()
+                {
+                    Name = request.Name,
+                    Description = request.Description,
+                    Cost = request.Cost,
+                    Size=request.Size
+                };
+                await _db.Products.AddAsync(product);
+                await _db.SaveChangesAsync();
+                return product.Id;
         }
 
-        public ProductEntity DeleteProduct(int productId)
+        public async Task<int> DeleteProductAsync(DeleteProductRequest request)
         {
-            var toDelete = _db.Products.Where(p=>p.Id == productId).FirstOrDefault();
-            _db.Products.Remove(toDelete);
-            return toDelete;
+            var toDelete = _db.Products.Where(p=>p.Id == request.ProductId).FirstOrDefault();
+            if (toDelete != null)
+            {
+                _db.Products.Remove(toDelete);
+                await _db.SaveChangesAsync();
+                return toDelete.Id;
+            }
+            return 0;
         }
 
-        public ProductEntity EditProduct(ProductEntity updatedProduct)
+        public async Task<ProductEntity> PutProductAsync(PutProductRequest request)
         {
-            var oldProduct = _db.Products.Where(p => p.Id == updatedProduct.Id).FirstOrDefault();
-            oldProduct = updatedProduct;
-            return _db.Products.Where(p => p.Id == updatedProduct.Id).FirstOrDefault();
+            var product = await _db.Products.Where(p => p.Id == request.Id).FirstOrDefaultAsync();
+            product = _mapper.Map<ProductEntity>(request);
+            await _db.SaveChangesAsync();
+            return product;
         }
 
-        public ProductEntity GetProduct(int productId)
+        public async Task<ProductEntity> GetProductAsync(GetProductRequest request)
         {
-            return _db.Products.Where(p => p.Id == productId).FirstOrDefault();
+            var product = await _db.Products.FindAsync(request.ProductId);
+            return product;
         }
 
-        public List <ProductEntity> GetProduct()
+        public async Task<List<ProductEntity>> GetProductsAsync()
         {
-            return _db.Products.ToList();
+            var products = await _db.Products.ToListAsync();
+            return products;
         }
     }
 }

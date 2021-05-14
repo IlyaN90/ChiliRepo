@@ -10,11 +10,10 @@ namespace Chilli.Infrastructure.Repositories
 {
     public class OrderRepository
     {
-        private readonly Fake _db;
-
-        public OrderRepository()
+        private readonly PostgreSQL_context _db;
+        public OrderRepository(PostgreSQL_context db)
         {
-            _db = new Fake();
+            _db = db;
         }
 
         public OrderEntity AddOrder(OrderEntity newOrder)
@@ -44,7 +43,7 @@ namespace Chilli.Infrastructure.Repositories
 
         public List<OrderEntity> GetOrder()
         {
-            return _db.Orders;
+            return _db.Orders.ToList();
         }
     }
 }

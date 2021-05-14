@@ -1,12 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Chilli.Application.Domain.Products;
+using Chilli.Core.Product.Domain;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Chilli.Application
 {
-  /*  public static void ConfigureServices(IServiceCollection services)
+    public static class Startup
     {
-
-    }*/
+        public static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<IAddProduct, AddProduct>();
+            services.AddScoped<IPutProduct, PutProduct>();
+            services.AddScoped<IDeleteProduct, DeleteProduct>();
+            services.AddScoped<IGetProduct, GetProduct>();
+        }
+    }
 }

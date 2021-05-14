@@ -41,6 +41,8 @@ namespace testApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "testApi", Version = "v1" });
             });
+            services.AddAutoMapper(typeof(Startup));
+            Chilli.Application.Startup.ConfigureServices(services);
             Chilli.Infrastructure.Startup.ConfigureServices(services);
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

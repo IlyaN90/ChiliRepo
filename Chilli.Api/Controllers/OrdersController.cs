@@ -13,7 +13,7 @@ namespace Chilli.API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly OrderRepository _repo = new OrderRepository();
+        private readonly OrderRepository _repo;
 
         // GET: api/<OrdersController>
         [HttpGet]
