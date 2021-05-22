@@ -24,5 +24,5 @@ namespace Chilli.Core.Product.Models
     public double Cost { get; set; }
     public int Size { get; set; }
     public int CategoryId { get; set; }
-}
+    }
 }

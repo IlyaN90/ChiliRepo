@@ -1,8 +1,12 @@
-﻿using Chilli.Core.Infrastructure.Entities.Product;
+﻿using Chilli.API.Queries;
+using Chilli.Application.MediatR.Handlers;
+using Chilli.Application.MediatR.Queries;
+using Chilli.Core.Infrastructure.Entities.Product;
 using Chilli.Core.Infrastructure.Entities.Repositories;
 using Chilli.Core.Product.Domain;
 using Chilli.Core.Product.Models;
 using Chilli.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,44 +16,45 @@ using System.Threading.Tasks;
 
 namespace Chilli.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly IAddProduct _addProduct;
         private readonly IDeleteProduct _deleteProduct;
         private readonly IPutProduct _putProduct;
-        private readonly IGetProduct _getProduct;
 
-        public ProductsController(IAddProduct addProduct, IGetProduct getProduct, IPutProduct putProduct, IDeleteProduct deleteProduct)
+        private readonly IMediator _mediator;
+
+
+        public ProductsController(IMediator mediator,IAddProduct addProduct, IPutProduct putProduct, IDeleteProduct deleteProduct)
         {
             _addProduct = addProduct;
-            _getProduct = getProduct;
             _deleteProduct = deleteProduct;
             _putProduct = putProduct;
+
+            _mediator = mediator;
         }
         // GET: api/<ProductsController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var response = await _getProduct.GetProductsDb();
-            if (!response.Success)
-            {
-                return BadRequest();
-            }
-            return Ok(response);
+            var query = new GetAllProductsQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var response = await _getProduct.GetProductDb(new GetProductRequest(id));
-            if (!response.Success)
+            var query = new GetProductByIdQuery(id);
+            var result = await _mediator.Send(query);
+            if (!result.Success)
             {
                 return BadRequest();
             }
-            return Ok(response);
+            return Ok(result);
         }
 
         // POST api/<ProductsController>

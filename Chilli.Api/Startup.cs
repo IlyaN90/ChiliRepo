@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Chilli.Infrastructure.Context;
-using Chilli.Infrastructure.Repositories;
+using MediatR;
 
 namespace testApi
 {
@@ -44,6 +44,7 @@ namespace testApi
             services.AddAutoMapper(typeof(Startup));
             Chilli.Application.Startup.ConfigureServices(services);
             Chilli.Infrastructure.Startup.ConfigureServices(services);
+            services.AddMediatR(typeof(Chilli.Application.Startup));
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

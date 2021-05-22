@@ -28,7 +28,7 @@ namespace Chilli.Application.Domain.Products
             {
                 return new GetProductResponse(true, new ProductModel(product.Id, product.Name, product.Description, product.Cost, product.Size));
             }
-            return new GetProductResponse(true, new ProductModel());
+            return new GetProductResponse(false, new ProductModel());
         }
         public async Task<GetProductResponse> GetProductsDb()
         {
