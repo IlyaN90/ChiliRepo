@@ -29,4 +29,8 @@
     <ProjectReference Include="..\Chilli.Infrastructure\Chilli.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

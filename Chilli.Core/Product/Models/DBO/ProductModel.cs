@@ -13,13 +13,15 @@ namespace Chilli.Core.Product.Models.DBO
         {
 
         }
-        public ProductModel(int id, string name, string description, double cost, int size)
+        public ProductModel(int id, string name, string description, double cost, int size, string imageTitle, string imagePath)
         {
             Id = id;
             Name = name;
             Description = description;
             Cost = cost;
             Size = size;
+            ImageTitle = imageTitle;
+            ImagePath = imagePath;
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -27,5 +29,7 @@ namespace Chilli.Core.Product.Models.DBO
         public double Cost { get; set; }
         public int Size { get; set; }
         public CategoryEntity Category { get; set; }
+        public string ImageTitle { get; set; }
+        public string ImagePath { get; set; }
     }
 }

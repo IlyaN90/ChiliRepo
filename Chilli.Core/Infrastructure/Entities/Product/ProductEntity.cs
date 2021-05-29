@@ -1,4 +1,5 @@
 ﻿using Chilli.Core.Infrastructure.Entities.Category;
+using Chilli.Core.Infrastructure.Entities.Media;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Chilli.Core.Infrastructure.Entities.Product
         public double Cost { get; set; }
         public int Size { get; set; }
         public CategoryEntity Category { get; set; }
+        public MediaEntity Media { get; set; }
     }
 }

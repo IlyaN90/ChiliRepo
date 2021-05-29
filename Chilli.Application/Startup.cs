@@ -1,4 +1,5 @@
 ﻿using Chilli.Application.Domain.Products;
+using Chilli.Application.Validaiton;
 using Chilli.Core.Product.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,6 +16,9 @@ namespace Chilli.Application
             services.AddScoped<IPutProduct, PutProduct>();
             services.AddScoped<IDeleteProduct, DeleteProduct>();
             services.AddScoped<IGetProduct, GetProduct>();
+            services.AddScoped<IUploadImage, UploadImage>();
+
+            services.AddScoped<IImageValidator, ImageValidator>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Chilli.Core.Product.Models.DBO;
+﻿using Chilli.Core.Infrastructure.Entities.Media;
+using Chilli.Core.Product.Models.DBO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,6 @@ namespace Chilli.Core.Product.Models
         public GetProductResponse(bool success)
         {
             Success = success;
-        }
-        public GetProductResponse(bool success, ProductModel product)
-        {
-            Success = success;
-            Product = product;
         }
 
         public GetProductResponse(bool success, List<ProductModel> products)

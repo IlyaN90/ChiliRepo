@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chilli.Core.Infrastructure.Entities.Media;
 using Chilli.Core.Infrastructure.Entities.Product;
 using Chilli.Core.Infrastructure.Entities.Repositories;
 using Chilli.Core.Product.Models;
@@ -56,16 +57,36 @@ namespace Chilli.Infrastructure.Repositories
             return product;
         }
 
-        public async Task<ProductEntity> GetProductAsync(GetProductRequest request)
+        public async Task<List<ProductEntity>> GetProductAsync(GetProductRequest request)
         {
-            var product = await _db.Products.FindAsync(request.ProductId);
-            return product;
+            var product = await _db.Products.Include(p=>p.Media).Where(p=>p.Id==request.ProductId).FirstOrDefaultAsync();
+            List<ProductEntity> productList = new List<ProductEntity>
+            {
+                product
+            };
+            return productList;
         }
 
         public async Task<List<ProductEntity>> GetProductsAsync()
         {
-            var products = await _db.Products.ToListAsync();
+            var products = await _db.Products.Include(p=>p.Media).ToListAsync();
             return products;
+        }
+
+        public async Task<UploadProductImageResponse> UploadProductImageAsync(UploadProductImageRequest request, string path)
+        {
+            var product = await _db.Products.FindAsync(request.ProductId);
+            if (product != null)
+            {
+                MediaEntity media = new MediaEntity() 
+                {
+                    Path = path
+                };
+                product.Media = media;
+                await _db.SaveChangesAsync();
+                return new UploadProductImageResponse(true, path);
+            }
+            return new UploadProductImageResponse(false, path);
         }
     }
 }

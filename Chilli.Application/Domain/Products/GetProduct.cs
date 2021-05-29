@@ -24,11 +24,20 @@ namespace Chilli.Application.Domain.Products
         public async Task<GetProductResponse> GetProductDb(GetProductRequest request)
         {
             var product = await _repository.GetProductAsync(request);
-            if (product!=null)
-            {
-                return new GetProductResponse(true, new ProductModel(product.Id, product.Name, product.Description, product.Cost, product.Size));
+            if (product.Any()) 
+            { 
+                List<ProductModel> productModels = new List<ProductModel>();
+                foreach (ProductEntity p in product)
+                {
+                    if (p.Media != null)
+                    {
+                        productModels.Add(new ProductModel(p.Id, p.Name, p.Description, p.Cost, p.Size, p.Media.Title, p.Media.Path));
+                    }
+                    else productModels.Add(new ProductModel(p.Id, p.Name, p.Description, p.Cost, p.Size, "", null));
+                }
+                return new GetProductResponse(true, productModels);
             }
-            return new GetProductResponse(false, new ProductModel());
+            return new GetProductResponse(false, null);
         }
         public async Task<GetProductResponse> GetProductsDb()
         {
@@ -36,7 +45,10 @@ namespace Chilli.Application.Domain.Products
             List<ProductModel> productModels = new List<ProductModel>();
             foreach(ProductEntity p in products)
             {
-                productModels.Add(new ProductModel(p.Id, p.Name, p.Description, p.Cost, p.Size));
+                if (p.Media != null)
+                {
+                    productModels.Add(new ProductModel(p.Id, p.Name, p.Description, p.Cost, p.Size, p.Media.Title, p.Media.Path));
+                }else productModels.Add(new ProductModel(p.Id, p.Name, p.Description, p.Cost, p.Size, "", ""));
             }
             return new GetProductResponse(true, productModels);
         }

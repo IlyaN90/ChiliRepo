@@ -11,8 +11,9 @@ namespace Chilli.Core.Infrastructure.Entities.Repositories
     {
         public Task<int> AddProductAsync(AddProductRequest request);
         public Task<ProductEntity> PutProductAsync(PutProductRequest request);
-        public Task<ProductEntity> GetProductAsync(GetProductRequest request);
         public Task<List<ProductEntity>> GetProductsAsync();
+        public Task<List<ProductEntity>> GetProductAsync(GetProductRequest request);
         public Task<int> DeleteProductAsync(DeleteProductRequest request);
+        public Task<UploadProductImageResponse> UploadProductImageAsync(UploadProductImageRequest request, string path);
     }
 }
