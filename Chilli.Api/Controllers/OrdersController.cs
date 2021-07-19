@@ -1,5 +1,7 @@
 ﻿using Chilli.Core.Infrastructure.Entities.Order;
+using Chilli.Core.Infrastructure.Repositories;
 using Chilli.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,46 +15,47 @@ namespace Chilli.API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly OrderRepository _repo;
+        private readonly IOrderRepository _repo;
+        private readonly IMediator _mediator;
 
+        public OrdersController(IMediator mediator, IOrderRepository repo)
+        {
+            _mediator = mediator;
+            _repo = repo;
+        }
         // GET: api/<OrdersController>
         [HttpGet]
-        public IEnumerable<OrderEntity> Get()
+        public async Task<IActionResult> Get()
         {
-            return _repo.GetOrder();
+            throw new NotImplementedException();
         }
 
         // GET api/<OrdersController>/5
         [HttpGet("{id}")]
-        public OrderEntity Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return _repo.GetOrder(id);
+            throw new NotImplementedException();
         }
 
         // POST api/<OrdersController>
         [HttpPost]
-        public IActionResult Post([FromBody] OrderEntity newOrder)
+        public async Task<IActionResult> Post([FromBody] OrderEntity newOrder)
         {
-            OrderEntity response =  _repo.AddOrder(newOrder);
-            if (!response.Success)
-            {
-                return BadRequest();
-            }
-            return Created("", response);
+            throw new NotImplementedException();
         }
 
         // PUT api/<OrdersController>/5
         [HttpPut]
-        public OrderEntity Put([FromBody] OrderEntity product)
+        public async Task<IActionResult> Put([FromBody] OrderEntity product)
         {
-            return _repo.EditOrder(product);
+            throw new NotImplementedException();
         }
 
         // DELETE api/<OrdersController>/5
         [HttpDelete("{id}")]
-        public OrderEntity Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return _repo.DeleteOrder(id);
+            throw new NotImplementedException();
         }
     }
 }

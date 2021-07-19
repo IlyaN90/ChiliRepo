@@ -1,5 +1,7 @@
 ﻿using Chilli.Core.Infrastructure.Entities.Order;
+using Chilli.Core.Infrastructure.Repositories;
 using Chilli.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Chilli.Infrastructure.Repositories
 {
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
         private readonly PostgreSQL_context _db;
         public OrderRepository(PostgreSQL_context db)
@@ -16,34 +18,34 @@ namespace Chilli.Infrastructure.Repositories
             _db = db;
         }
 
-        public OrderEntity AddOrder(OrderEntity newOrder)
+        public async Task<OrderEntity> AddOrder(OrderEntity newOrder)
         {
             _db.Orders.Add(newOrder);
             return newOrder;
         }
 
-        public OrderEntity DeleteOrder(int productId)
+        public async Task<OrderEntity> DeleteOrder(int productId)
         {
             var toDelete = _db.Orders.Where(p => p.Id == productId).FirstOrDefault();
             _db.Orders.Remove(toDelete);
             return toDelete;
         }
 
-        public OrderEntity EditOrder(OrderEntity updatedOrder)
+        public async Task<OrderEntity> EditOrder(OrderEntity updatedOrder)
         {
             var oldOrder = _db.Orders.Where(p => p.Id == updatedOrder.Id).FirstOrDefault();
             oldOrder = updatedOrder;
             return _db.Orders.Where(p => p.Id == updatedOrder.Id).FirstOrDefault();
         }
 
-        public OrderEntity GetOrder(int productId)
+        public async Task<OrderEntity> GetOrder(int productId)
         {
             return _db.Orders.Where(p => p.Id == productId).FirstOrDefault();
         }
 
-        public List<OrderEntity> GetOrder()
+        public async Task<List<OrderEntity>> GetOrder()
         {
-            return _db.Orders.ToList();
+            return await _db.Orders.ToListAsync();
         }
     }
 }

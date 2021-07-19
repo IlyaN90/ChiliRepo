@@ -22,7 +22,6 @@ namespace Chilli.Core.Product.Models
         }
 
         public bool Success { get; set; }
-        public ProductModel Product { get; set; }
         public List<ProductModel> Products { get; set; }
     }
 }
