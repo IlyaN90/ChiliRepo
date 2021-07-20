@@ -1,5 +1,8 @@
-﻿using Chilli.Core.Infrastructure.Entities.Order;
+﻿using AutoMapper;
+using Chilli.Core.Infrastructure.Entities.Order;
 using Chilli.Core.Infrastructure.Repositories;
+using Chilli.Core.Order.Models.Request;
+using Chilli.Core.Order.Models.Response;
 using Chilli.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,39 +16,64 @@ namespace Chilli.Infrastructure.Repositories
     public class OrderRepository : IOrderRepository
     {
         private readonly PostgreSQL_context _db;
-        public OrderRepository(PostgreSQL_context db)
+        private readonly IMapper _mapper;
+
+        public OrderRepository(PostgreSQL_context db, IMapper mapper)
         {
             _db = db;
+            _mapper=mapper;
         }
 
-        public async Task<OrderEntity> AddOrder(OrderEntity newOrder)
+        public async Task<int> AddOrderAsync(AddOrderRequest newOrder)
         {
-            _db.Orders.Add(newOrder);
-            return newOrder;
+            OrderEntity order = new OrderEntity()
+            {
+                Customer = newOrder.Customer,
+                Products = newOrder.Products,
+                OrderDate = newOrder.OrderDate,
+                Deadline = newOrder.Deadline,
+                TotalPrice = newOrder.TotalPrice,
+                Success = true
+            };
+            await _db.Orders.AddAsync(order);
+            await _db.SaveChangesAsync();
+            return order.Id;
         }
 
-        public async Task<OrderEntity> DeleteOrder(int productId)
+        public async Task<int> DeleteOrderAsync(int productId)
         {
-            var toDelete = _db.Orders.Where(p => p.Id == productId).FirstOrDefault();
-            _db.Orders.Remove(toDelete);
-            return toDelete;
+            var toDelete = await _db.Orders.Where(p => p.Id == productId).FirstOrDefaultAsync();
+            if (toDelete != null)
+            {
+                _db.Orders.Remove(toDelete);
+                await _db.SaveChangesAsync();
+                return toDelete.Id;
+            }
+            return 0;
         }
 
-        public async Task<OrderEntity> EditOrder(OrderEntity updatedOrder)
+        public async Task<OrderEntity> PutOrderAsync(PutOrderRequest updatedOrder)
         {
-            var oldOrder = _db.Orders.Where(p => p.Id == updatedOrder.Id).FirstOrDefault();
-            oldOrder = updatedOrder;
-            return _db.Orders.Where(p => p.Id == updatedOrder.Id).FirstOrDefault();
+            var order = await _db.Orders.Where(p => p.Id == updatedOrder.Id).FirstOrDefaultAsync();
+            order = _mapper.Map<OrderEntity>(updatedOrder);
+            await _db.SaveChangesAsync();
+            return order;
         }
 
-        public async Task<OrderEntity> GetOrder(int productId)
+        public async Task<List<OrderEntity>> GetOrderAsync(GetOrderRequest request)
         {
-            return _db.Orders.Where(p => p.Id == productId).FirstOrDefault();
+            var order = await _db.Orders.Where(p => p.Id == request.OrderId).FirstOrDefaultAsync();
+            List<OrderEntity> orderList = new List<OrderEntity>
+            {
+                order
+            };
+            return orderList;
         }
 
-        public async Task<List<OrderEntity>> GetOrder()
+        public async Task<List<OrderEntity>> GetOrderAsync()
         {
-            return await _db.Orders.ToListAsync();
+            var orders = await _db.Orders.ToListAsync();
+            return orders;
         }
     }
 }

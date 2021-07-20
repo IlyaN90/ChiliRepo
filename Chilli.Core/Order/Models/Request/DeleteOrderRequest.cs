@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chilli.Core.Order.Models.Request
 {
-    public class DeleteOrederRequest
+    public class DeleteOrderRequest
     {
-        public DeleteOrederRequest(int id)
+        public DeleteOrderRequest(int id)
         {
             Id = id;
         }

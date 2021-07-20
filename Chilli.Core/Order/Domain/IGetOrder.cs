@@ -10,7 +10,7 @@ namespace Chilli.Core.Order.Domain
 {
     public interface IGetOrder
     {
-        public Task<GetOrderResponse> GetProductDb(GetOrderRequest request);
-        public Task<GetOrderResponse> GetProductsDb();
+        public Task<GetOrderResponse> GetOrderDb(GetOrderRequest request);
+        public Task<GetOrderResponse> GetOrdersDb();
     }
 }

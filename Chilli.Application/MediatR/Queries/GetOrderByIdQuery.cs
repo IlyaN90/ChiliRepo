@@ -10,5 +10,10 @@ namespace Chilli.Application.MediatR.Queries
 {
     public class GetOrderByIdQuery : IRequest<GetOrderResponse>
     {
+        public int Id { get; set; }
+        public GetOrderByIdQuery(int id)
+        {
+            Id = id;
+        }
     }
 }

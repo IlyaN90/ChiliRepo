@@ -1,5 +1,7 @@
-﻿using Chilli.Application.Domain.Products;
+﻿using Chilli.Application.Domain.Orders;
+using Chilli.Application.Domain.Products;
 using Chilli.Application.Validaiton;
+using Chilli.Core.Order.Domain;
 using Chilli.Core.Product.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +19,11 @@ namespace Chilli.Application
             services.AddScoped<IDeleteProduct, DeleteProduct>();
             services.AddScoped<IGetProduct, GetProduct>();
             services.AddScoped<IUploadImage, UploadImage>();
+
+            services.AddScoped<IAddOrder, AddOrder>();
+            services.AddScoped<IPutOrder, PutOrder>();
+            services.AddScoped<IDeleteOrder, DeleteOrder>();
+            services.AddScoped<IGetOrder, GetOrder>();
 
             services.AddScoped<IImageValidator, ImageValidator>();
         }

@@ -15,11 +15,9 @@ namespace Chilli.Application.Domain.Products
     public class GetProduct : IGetProduct
     {
         private readonly IProductRepository _repository;
-        private readonly IMapper _mapper;
-        public GetProduct(IProductRepository repository, IMapper mapper)
+        public GetProduct(IProductRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
         public async Task<GetProductResponse> GetProductDb(GetProductRequest request)
         {

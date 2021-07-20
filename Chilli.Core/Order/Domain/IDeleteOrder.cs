@@ -6,6 +6,6 @@ namespace Chilli.Core.Order.Domain
 {
     public interface IDeleteOrder
     {
-        public Task<DeleteOrderResponse> DeleteProductDb(DeleteOrederRequest request);
+        public Task<DeleteOrderResponse> DeleteOrderDb(DeleteOrderRequest request);
     }
 }

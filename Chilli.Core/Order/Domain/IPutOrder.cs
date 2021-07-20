@@ -10,6 +10,6 @@ namespace Chilli.Core.Order.Domain
 {
     public interface IPutOrder
     {
-        public Task<PutOrderResponse> PutProductDb(PutOrderRequest request);
+        public Task<PutOrderResponse> PutOrderDb(PutOrderRequest request);
     }
 }
