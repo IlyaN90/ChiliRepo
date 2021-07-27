@@ -31,7 +31,12 @@ namespace Chilli.Application.Domain.Orders
         }
         public async Task<GetOrderResponse> GetOrdersDb()
         {
-            var orderModelList = await _repository.GetOrderAsync();
+            var orderEntryList = await _repository.GetOrderAsync();
+            List<OrderModel> orderModelList = new List<OrderModel>();
+            foreach(var order in orderEntryList)
+            {
+                orderModelList.Add(new OrderModel(order.Id,order.Customer, order.Products, order.OrderDate, order.Deadline, order.TotalPrice, order.Success));
+            }
             return new GetOrderResponse(true, orderModelList);
         }
     }
