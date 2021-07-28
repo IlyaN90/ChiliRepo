@@ -1,13 +1,11 @@
+using Chilli.Infrastructure.Context;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Chilli.MVC
 {
@@ -23,7 +21,13 @@ namespace Chilli.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<PostgreSQL_context>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLContext")));
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
+            Chilli.Application.Startup.ConfigureServices(services);
+            Chilli.Infrastructure.Startup.ConfigureServices(services);
+            services.AddMediatR(typeof(Chilli.Application.Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
